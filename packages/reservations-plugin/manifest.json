@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "pluginKey": "linus.reservations",
+  "displayName": "Linus Reservations",
+  "version": "1.0.0",
+  "categories": ["automation"],
+  "capabilities": [
+    "events.subscribe",
+    "http.outbound",
+    "secrets.read-ref",
+    "plugin.state.read",
+    "plugin.state.write",
+    "activity.log.write",
+    "companies.read",
+    "jobs.schedule"
+  ],
+  "instanceConfigSchema": {
+    "type": "object",
+    "properties": {
+      "resendApiKeyRef": { "type": "string" },
+      "googleRefreshTokenRef": { "type": "string" }
+    },
+    "required": ["resendApiKeyRef", "googleRefreshTokenRef"]
+  },
+  "jobs": [
+    { "jobKey": "check-reminders", "schedule": "0 * * * *", "displayName": "Check upcoming reservation reminders" }
+  ]
+}

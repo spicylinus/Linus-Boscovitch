@@ -1,0 +1,21 @@
+{
+  "name": "@linus/reservations-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/worker.js",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@paperclipai/plugin-sdk": "2026.416.0",
+    "googleapis": "171.4.0",
+    "resend": "6.12.2",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.0",
+    "esbuild": "0.25.5",
+    "typescript": "6.0.3"
+  }
+}

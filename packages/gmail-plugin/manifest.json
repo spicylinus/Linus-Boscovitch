@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "pluginKey": "linus.gmail",
+  "displayName": "Linus Gmail Connector",
+  "version": "1.0.0",
+  "categories": ["connector", "automation"],
+  "capabilities": [
+    "events.subscribe",
+    "events.emit",
+    "http.outbound",
+    "secrets.read-ref",
+    "plugin.state.read",
+    "plugin.state.write",
+    "activity.log.write",
+    "issues.create",
+    "issues.read",
+    "issues.update",
+    "agents.read",
+    "companies.read",
+    "jobs.schedule"
+  ],
+  "instanceConfigSchema": {
+    "type": "object",
+    "properties": {
+      "gmailClientIdRef": { "type": "string" },
+      "gmailClientSecretRef": { "type": "string" },
+      "gmailRefreshTokenRef": { "type": "string" },
+      "resendApiKeyRef": { "type": "string" },
+      "ownerEmail": { "type": "string" }
+    },
+    "required": ["gmailClientIdRef", "gmailClientSecretRef", "gmailRefreshTokenRef", "resendApiKeyRef", "ownerEmail"]
+  },
+  "jobs": [
+    { "jobKey": "poll-inbox", "schedule": "*/15 * * * *", "displayName": "Poll Gmail inbox" },
+    { "jobKey": "send-digest", "schedule": "0 8 * * *", "displayName": "Send daily digest" }
+  ],
+  "webhooks": [
+    { "endpointKey": "gmail-push", "displayName": "Gmail Pub/Sub push" }
+  ],
+  "tools": [
+    {
+      "name": "send_email",
+      "displayName": "Send Email",
+      "description": "Send an email reply via the connected Gmail account",
+      "parametersSchema": {
+        "type": "object",
+        "properties": {
+          "threadId": { "type": "string" },
+          "to": { "type": "string" },
+          "subject": { "type": "string" },
+          "body": { "type": "string" }
+        },
+        "required": ["threadId", "to", "subject", "body"]
+      }
+    }
+  ]
+}

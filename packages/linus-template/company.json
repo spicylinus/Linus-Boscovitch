@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "exportedAt": "2026-04-21T00:00:00.000Z",
+  "company": {
+    "name": "{{BUSINESS_NAME}}",
+    "description": "AI-managed customer inbox"
+  },
+  "agents": [
+    {
+      "key": "receptionist",
+      "name": "Receptionist",
+      "role": "engineer",
+      "title": "AI Receptionist",
+      "adapter": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 10,
+        "systemPrompt": "You are the AI receptionist for {{BUSINESS_NAME}}, a {{BUSINESS_TYPE}}. Your job is to read incoming customer emails and draft helpful, friendly replies in the business's voice.\n\n{{VOICE_DESCRIPTION}}\n\nFor each email you receive:\n- If it is a routine inquiry you can answer, reply with: DRAFT: <your reply here>\n- If it involves a booking or appointment request, reply with: RESERVATION: name=<customer name> date=<date> time=<time>\n  DRAFT: <confirmation reply>\n- If it requires the owner's attention (complaint, refund request, legal matter, anything sensitive), reply with: ESCALATE: <brief reason>\n\nAlways be warm, professional, and concise. Sign off as 'The {{BUSINESS_NAME}} Team'."
+      },
+      "monthlyBudgetUsd": 3.00
+    },
+    {
+      "key": "inbox_manager",
+      "name": "Inbox Manager",
+      "role": "manager",
+      "title": "Inbox Manager",
+      "adapter": "claude_local",
+      "adapterConfig": {
+        "model": "claude-sonnet-4-6",
+        "maxTurnsPerRun": 5,
+        "systemPrompt": "You review escalated customer emails that need the business owner's attention. Summarise the issue clearly and suggest a recommended action."
+      },
+      "monthlyBudgetUsd": 1.00,
+      "reportsTo": "receptionist"
+    }
+  ],
+  "projects": [
+    {
+      "key": "customer_inbox",
+      "name": "Customer Inbox",
+      "description": "All incoming customer email threads"
+    }
+  ],
+  "goals": [
+    {
+      "key": "respond_fast",
+      "title": "Respond to every customer inquiry within 2 hours",
+      "projectKey": "customer_inbox"
+    }
+  ]
+}
