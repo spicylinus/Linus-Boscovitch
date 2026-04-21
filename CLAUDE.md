@@ -2,20 +2,26 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Status
+## Project
 
-This repository is in early initialization. No source code, build tooling, or framework has been established yet. The only file present is a placeholder `README.md`.
+This project uses [Paperclip AI](https://paperclip.ing/) — an open-source Node.js server and React UI for orchestrating teams of AI agents.
 
-## Repository
+## Commands
 
-- **Remote:** spicylinus/Linus-Boscovitch
-- **Default branch:** main
-- **Author:** spicylinus <support@sociallinus.com>
+```bash
+# Start the Paperclip server
+npx paperclipai
 
-## Next Steps
+# Install dependencies
+npm install
+```
 
-When the project stack is chosen and code is added, update this file with:
-- Build, lint, and test commands
-- Directory structure and architecture overview
-- Environment setup instructions
-- Key conventions specific to this codebase
+## Stack
+
+- **Runtime:** Node.js
+- **Package manager:** npm
+- **Core dependency:** `paperclipai` — bundles `@paperclipai/server` (Express/Node backend) and `@paperclipai/db` (Drizzle ORM)
+
+## Known Issues
+
+`npm audit` reports 4 high-severity vulnerabilities in `drizzle-orm` (SQL injection via improperly escaped identifiers, [GHSA-gpj5-g38j-94v9](https://github.com/advisories/GHSA-gpj5-g38j-94v9)) inside `paperclipai`'s transitive dependencies. No upstream fix is available yet — do not attempt `npm audit fix` as it cannot resolve them.
