@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["stitch-mcp"]
+    },
+    "ui-expert": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@johndoe20012/ui-expert-mcp"]
+    }
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npx:*)",
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Read(**)",
+      "Edit(**)",
+      "Write(**)"
+    ]
+  }
+}
