@@ -11,10 +11,6 @@ This project uses four tools in a coordinated design-to-code pipeline:
 | v0.dev / 21st.dev| Generate shadcn/ui React components via AI    | `npm run v0` or 21st.dev Magic MCP   |
 | UI/UX Pro Max    | Enforce WCAG 2.1, design consistency audits   | Claude Code skill (see install below)|
 
-> **"26 dev" note**: This workflow treats "26 dev" as **v0.dev** (Vercel's AI component
-> generator) or **21st.dev** (Magic MCP for AI-powered UI components). Both produce
-> shadcn/ui-compatible React output. Use whichever you prefer — the steps are identical.
-
 ---
 
 ## Installing UI/UX Pro Max Skill
