@@ -1,9 +1,15 @@
 import { definePlugin } from "@paperclipai/plugin-sdk";
+import type { PluginContext } from "@paperclipai/plugin-sdk";
 import { pollInbox } from "./jobs/poll-inbox.js";
 import { runSendDigest } from "./jobs/send-digest.js";
 
-definePlugin({
+// Captured in setup(), used by onWebhook() which doesn't receive ctx directly
+let _ctx: PluginContext | null = null;
+
+export default definePlugin({
   async setup(ctx) {
+    _ctx = ctx;
+
     ctx.jobs.register("poll-inbox", async ({ companyId }) => {
       await pollInbox(ctx, companyId);
     });
@@ -24,9 +30,21 @@ definePlugin({
     });
   },
 
-  async onWebhook({ endpointKey, companyId, payload }) {
-    if (endpointKey === "gmail-push") {
-      await pollInbox(this as any, companyId);
+  async onWebhook({ endpointKey, parsedBody }) {
+    if (endpointKey !== "gmail-push" || !_ctx) return;
+
+    // Google Pub/Sub push sends: { subscription: "...linus-gmail-<companyId>", message: {...} }
+    const subscription = (parsedBody as Record<string, unknown>)?.subscription as string ?? "";
+    const match = subscription.match(/linus-gmail-([a-f0-9-]+)$/);
+
+    if (match?.[1]) {
+      await pollInbox(_ctx, match[1]);
+    } else {
+      // Fallback: poll all companies (e.g. during dev with a shared subscription)
+      const companies = await _ctx.companies.list();
+      for (const company of companies) {
+        await pollInbox(_ctx, company.id);
+      }
     }
   },
 

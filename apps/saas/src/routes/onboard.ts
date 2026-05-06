@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { google } from "googleapis";
 import { db } from "../db/client.js";
 import { linusOnboardingState } from "../db/schema.js";
 import { eq } from "drizzle-orm";
@@ -49,7 +50,6 @@ export function onboardRouter(paperclipApiUrl: string) {
   });
 
   router.get("/gmail/connect", (req, res) => {
-    const { google } = require("googleapis");
     const oauth2 = new google.auth.OAuth2(
       process.env.GMAIL_CLIENT_ID,
       process.env.GMAIL_CLIENT_SECRET,

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const STEPS = ["Business Info", "Connect Gmail", "Your Voice", "Test Email"] as const;
+const STEP_KEYS = ["business_info", "gmail_connect", "voice_setup", "test_email"] as const;
 
 const BUSINESS_TYPES = ["Restaurant", "Salon / Spa", "Plumber / Trades", "Consultant", "Retail Shop", "Other"];
 
@@ -8,8 +9,34 @@ export function Onboard() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({ businessName: "", businessType: "", timezone: Intl.DateTimeFormat().resolvedOptions().timeZone });
   const [voice, setVoice] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showUpsell, setShowUpsell] = useState(false);
+
+  // On mount: check URL param (set by Gmail OAuth callback) and fetch server state
+  useEffect(() => {
+    async function syncStep() {
+      const params = new URLSearchParams(window.location.search);
+      const urlStep = params.get("step");
+
+      const res = await fetch("/onboard/status");
+      const state = res.ok ? await res.json() : null;
+
+      if (state?.completedAt) {
+        setShowUpsell(true);
+      } else if (urlStep) {
+        const idx = STEP_KEYS.indexOf(urlStep as typeof STEP_KEYS[number]);
+        setStep(idx >= 0 ? idx : 0);
+      } else if (state?.step) {
+        const idx = STEP_KEYS.indexOf(state.step as typeof STEP_KEYS[number]);
+        setStep(idx >= 0 ? idx : 0);
+      }
+
+      if (state?.businessName) setForm(f => ({ ...f, businessName: state.businessName }));
+      if (state?.voiceDescription) setVoice(state.voiceDescription);
+      setLoading(false);
+    }
+    syncStep();
+  }, []);
 
   async function submitBusinessInfo() {
     setLoading(true);
@@ -43,6 +70,14 @@ export function Onboard() {
   async function enableReservations() {
     await fetch("/billing/addon/reservations", { method: "POST" });
     window.location.href = "/dashboard";
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-400 animate-pulse">Loading…</div>
+      </div>
+    );
   }
 
   if (showUpsell) {
