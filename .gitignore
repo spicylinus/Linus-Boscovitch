@@ -1,9 +1,14 @@
 node_modules/
 
-# Environment and secrets
+# Environment and secrets — block every variation
 .env
 .env.*
 !.env.example
+env.local
+env.local.*
+*.local
+*.local.*
+!*.example
 *.pem
 *.key
 *.p12
