@@ -13,6 +13,55 @@ This project uses four tools in a coordinated design-to-code pipeline:
 
 ---
 
+## Design Style System
+
+Ten pre-built style presets live in `src/styles/design-styles.css`. Each overrides the CSS
+custom properties from `globals.css` for any element that carries a `data-style` attribute.
+
+### Switch the site-wide style
+
+1. Edit `DESIGN.md` → `## Active Design Style` → change the `Style` value (one word)
+2. Tell Claude Code: *"Apply the active design style from DESIGN.md"*
+   Claude Code will set `data-style="<style>"` on `<html>` in `src/app/layout.tsx`
+
+### Per-section style
+
+```tsx
+import { StyleWrapper } from '@/components/design-system/StyleWrapper'
+
+<StyleWrapper style="bento">
+  <FeatureGrid />
+</StyleWrapper>
+```
+
+`StyleWrapper` accepts any of the 10 style keys and sets `data-style` on its root element,
+scoping the theme to that subtree only.
+
+### Dev preview
+
+Add `<StyleSwitcher />` to any page to get a floating panel that lets you click through all
+10 styles live. It only renders in `NODE_ENV=development`.
+
+```tsx
+import { StyleSwitcher } from '@/components/design-system/StyleSwitcher'
+// Inside your page or layout:
+<StyleSwitcher />
+```
+
+### Valid style keys
+
+```
+minimalism | brutalism | neobrutalism | constructivism | swiss |
+editorial  | hand-drawn | retro       | flat           | bento
+```
+
+### Token reference
+
+`src/lib/style-presets.ts` exports `STYLE_PRESETS` — fully-typed token objects for all 10
+styles — and `DESIGN_STYLE_DESCRIPTIONS` for documentation or style-picker UIs.
+
+---
+
 ## Installing UI/UX Pro Max Skill
 
 The UI/UX Pro Max skill is a Claude Code plugin by `nextlevelbuilder`. Install it in your

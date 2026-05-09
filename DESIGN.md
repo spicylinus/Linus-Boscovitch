@@ -3,6 +3,20 @@
 > This file is exported by Google Stitch and read by Claude Code via the Stitch MCP server.
 > Do not edit manually while Stitch sync is active. To override, disconnect Stitch and edit directly.
 
+## Active Design Style
+
+- **Style**: `minimalism`
+- **Scope**: `site-wide`
+- **Override notes**: none
+
+> To switch styles, change the `Style` value above to one of:
+> `minimalism` | `brutalism` | `neobrutalism` | `constructivism` | `swiss` |
+> `editorial` | `hand-drawn` | `retro` | `flat` | `bento`
+>
+> Then tell Claude Code: *"Apply the active design style from DESIGN.md"*
+
+---
+
 ## Project Identity
 
 - **Design Style**: [e.g. "Minimal SaaS", "Bold Consumer", "Enterprise Dashboard"]

@@ -36,6 +36,11 @@ const config: Config = {
         lg: 'var(--radius-lg)',
         xl: 'var(--radius-xl)',
       },
+      boxShadow: {
+        sm:   'var(--shadow-sm)',
+        base: 'var(--shadow-base)',
+        lg:   'var(--shadow-lg)',
+      },
     },
   },
   plugins: [],
